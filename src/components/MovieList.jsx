@@ -26,29 +26,28 @@
 // Try adding one or more of these enhancements:
 // ● Highlight the currently selected genre.
 // ● Add a “Show All” option to display all movies.
-import React, { useState } from 'react';
-import GenreList from './components/GenreList.jsx';
-import MovieList from './components/MovieList.jsx';	
-const App = () => {
-	const [currentGenre, setCurrentGenre] = useState('Show All');
 
-	const movies = [
-		{ title: 'The Shawshank Redemption', genre: 'Drama' },
-		{ title: 'The Godfather', genre: 'Crime' },
-		{ title: 'The Dark Knight', genre: 'Action' },
-		{ title: 'Pulp Fiction', genre: 'Crime' },
-		{ title: 'Forrest Gump', genre: 'Drama' },
-		{ title: 'Inception', genre: 'Sci-Fi' },
-	];
+import React from 'react';
 
-	const genres = ['Show All', ...new Set(movies.map(movie => movie.genre))];
-	return (
-		<div>
-			<h1>Movie App</h1>
-			<GenreList genres={genres} currentGenre={currentGenre} setCurrentGenre={setCurrentGenre} />
-			<MovieList movies={movies} currentGenre={currentGenre} />
-		</div>
-	);
-};
-export default App;
+const MovieList = ({ movies, currentGenre }) => {
+    const filteredMovies = currentGenre === 'Show All' 
+        ? movies 
+        : movies.filter(movie => movie.genre === currentGenre);
 
+    return (
+        <div>
+            <h2>Movies</h2> 
+            {filteredMovies.length > 0 ? (
+                <ul>
+                    {filteredMovies.map((movie) => (    
+                        <li key={movie.title}>{movie.title} ({movie.genre})</li>
+                    ))}
+                </ul>   
+            ) : (
+                <p>No movies available for the selected genre.</p>
+            )}
+        </div>
+    );
+}   
+
+export default MovieList;

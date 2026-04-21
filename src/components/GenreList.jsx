@@ -2,8 +2,10 @@
 // ● Use an App component as the main container for your data and state.
 // ● Create two child components:
 // ○ MovieList: Seed with the provided mock data
+// ○ GenreList: Seed with the provided mock data
 // 2. Requirements
 // ● Use state to manage:
+// ○ currentGenre (string): Tracks the currently selected genre.
 // ○ movies (array): Contains the data for all available movies.
 // ● Pass state variables and setters as needed to the child components using
 // props.
@@ -26,29 +28,30 @@
 // Try adding one or more of these enhancements:
 // ● Highlight the currently selected genre.
 // ● Add a “Show All” option to display all movies.
-import React, { useState } from 'react';
-import GenreList from './components/GenreList.jsx';
-import MovieList from './components/MovieList.jsx';	
-const App = () => {
-	const [currentGenre, setCurrentGenre] = useState('Show All');
 
-	const movies = [
-		{ title: 'The Shawshank Redemption', genre: 'Drama' },
-		{ title: 'The Godfather', genre: 'Crime' },
-		{ title: 'The Dark Knight', genre: 'Action' },
-		{ title: 'Pulp Fiction', genre: 'Crime' },
-		{ title: 'Forrest Gump', genre: 'Drama' },
-		{ title: 'Inception', genre: 'Sci-Fi' },
-	];
+import React from 'react';
 
-	const genres = ['Show All', ...new Set(movies.map(movie => movie.genre))];
-	return (
-		<div>
-			<h1>Movie App</h1>
-			<GenreList genres={genres} currentGenre={currentGenre} setCurrentGenre={setCurrentGenre} />
-			<MovieList movies={movies} currentGenre={currentGenre} />
-		</div>
-	);
-};
-export default App;
+const GenreList = ({ genres, currentGenre, setCurrentGenre }) => {  
+    return (
+        <div>
+            <h2>Genres</h2> 
+            <ul>
+                {genres.map((genre) => (
+                    <li 
+                        key={genre}
+                        onClick={() => setCurrentGenre(genre)}
+                        style={{        
+                            cursor: 'pointer',
+                            fontWeight: genre === currentGenre ? 'bold' : 'normal',
+                        }}  
+                    >
+                        {genre}
+                    </li>   
+                ))}
+            </ul>
+        </div>
+    );
+}   
+
+export default GenreList;
 
